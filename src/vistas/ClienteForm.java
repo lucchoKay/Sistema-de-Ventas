@@ -107,7 +107,7 @@ public class ClienteForm extends javax.swing.JInternalFrame {
             }
         });
 
-        btnActualizar.setText("ACTUALIZAR");
+        btnActualizar.setText("MODIFICAR");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);

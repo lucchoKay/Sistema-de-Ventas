@@ -39,11 +39,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         menuGenerar = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
 
         jMenu1.setText("jMenu1");
 
@@ -79,7 +79,7 @@ public class Principal extends javax.swing.JFrame {
         menuGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/tienda.png"))); // NOI18N
         menuGenerar.setText("Ventas");
 
-        jMenuItem3.setText("GenerarVentas");
+        jMenuItem3.setText("Realizar Venta");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -89,16 +89,8 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuGenerar);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/configuracion-de-inicio.png"))); // NOI18N
-        jMenu4.setText("Mantenimiento");
-
-        jMenuItem4.setText("Cliente");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem4);
+        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte-de-negocios.png"))); // NOI18N
+        jMenu5.setText("Reportes");
 
         jMenuItem5.setText("Producto");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +98,15 @@ public class Principal extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
+        jMenu5.add(jMenuItem5);
+
+        jMenuItem4.setText("Cliente");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem4);
 
         jMenuItem6.setText("Vendedor");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -114,13 +114,13 @@ public class Principal extends javax.swing.JFrame {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem6);
+        jMenu5.add(jMenuItem6);
 
-        jMenuBar1.add(jMenu4);
-
-        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reporte-de-negocios.png"))); // NOI18N
-        jMenu5.setText("Reportes");
         jMenuBar1.add(jMenu5);
+
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/configuracion-de-inicio.png"))); // NOI18N
+        jMenu4.setText("Mantenimiento");
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
