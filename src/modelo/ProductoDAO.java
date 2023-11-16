@@ -24,6 +24,19 @@ public class ProductoDAO {
     Conexion acceso = new Conexion();
     Producto por = new Producto();
     
+    public int actualizarStock(int cant, int idp){
+        String sql = "update producto set Stock=? where idProducto";
+        try {
+            con = acceso.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cant);
+            ps.setInt(2, idp);
+            ps.executeUpdate();            
+        } catch (Exception e){
+        }
+        return r;
+    }
+    
     public Producto listarID() {
         Producto p = new Producto();
         String sql = "select * from producto where IdProducto=?";

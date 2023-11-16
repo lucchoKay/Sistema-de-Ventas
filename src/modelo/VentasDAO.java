@@ -20,9 +20,25 @@ public class VentasDAO {
     PreparedStatement ps;
     ResultSet rs;
     int r=0;
+    
+    public String NroSerieVentas(){
+        String serie = "";
+        String sql = "select max(NumeroSerie) from ventas";
+        try { 
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                serie = rs.getString(1);
+            }
+        }catch (Exception e){
+        }
+        return serie;
+    }
+    
     public String IdVentas(){
         String idv = "";
-        String sql = "select max (IdVentas) from ventas";
+        String sql = "select max(IdVentas) from ventas";
         try { 
             con = cn.Conectar();
             ps = con.prepareStatement(sql);

@@ -5,12 +5,18 @@
  */
 package vistas;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
 import modelo.ClienteDAO;
+import modelo.DetalleVentas;
+import modelo.Producto;
+import modelo.ProductoDAO;
+import modelo.Ventas;
+import modelo.VentasDAO;
 
 /**
  *
@@ -21,7 +27,12 @@ public class VentasForm extends javax.swing.JInternalFrame {
     VentasDAO vdao = new VentasDAO();
     ClienteDAO cdao = new ClienteDAO();
     ProductoDAO pdao = new ProductoDAO();
+    
     Producto p = new Producto();
+    Ventas v = new Ventas();
+    DetalleVentas dv = new DetalleVentas();
+    
+    Cliente cliente = new Cliente();
     
     
     /**
@@ -37,7 +48,22 @@ public class VentasForm extends javax.swing.JInternalFrame {
     public VentasForm() {
         initComponents();
         Calendar calendar = new GregorianCalendar();
-        txtFecha.setText(""+calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH));
+        fecha();     
+    }
+    
+    void fecha(){
+        Calendar calendar = new GregorianCalendar();
+        txtFecha.setText("" + calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" +calendar.get(Calendar.DAY_OF_MONTH));
+    }
+    void generarSerie(){
+        String serie = vdao.NroSerieVentas();
+        if (serie == null){
+            txtSerie.setText("0000001");
+        } else {
+            int increment = Integer.parseInt(serie);
+            increment = increment + 1;
+            txtSerie.setText("000000"+increment);
+        }
     }
 
     /**
@@ -463,19 +489,73 @@ public class VentasForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAgregarPrecioActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (txtTotalPagar.getText().equals("")){
+            JOptionPane.showInternalMessageDialog(this, "Debe ingresar Datos");
+        } else {
         guardarVenta();
         guardarDetalle();
+        actualizarStock();
+        JOptionPane.showMessageDialog(this, "Se Realizo con Exito");
+        nuevo();
+        generarSerie();        
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
+    void nuevo (){
+        limpiarTabla();
+        txtCodCliente.setText("");
+        txtCliente.setText("");
+        txtCantidad.setValue("");
+        txtCodProducto.setText("");
+        txtPrecio.setText("");
+        txtProducto.setText("");
+        txtStock.setText("");
+        txtTotalPagar.setText("");
+    }
+    void limpiarTabla(){
+        for (int i = 0; i < modelo.getRowCount(); i++){
+            modelo.remove(i);
+            i = i - 1;
+        }
+    }
+    void actualizarStock(){
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            Producto pr = new Producto();
+            idp = Integer.parseInt(tablaDetalle.getValueAt(i, 1).toString());
+            cant = Integer.parseInt(tablaDetalle.getValueAt(i, 3).toString());
+            pr = pdao.listarID(idp);
+            int sa = pr.getStock() - cant;
+            pdao.actualizarStock(cant, idp);
+        }
+    }
     void guardarVenta(){
-        int idv = 0;
-        int idc = 0;
+        int idv = 1;
+        int idc = cliente.getId();
         String serie = txtSerie.getText();
         String fecha = txtFecha.getText();
         double monto = tpagar;
         String estado = "1";
+        
+        v.setIdCliente(idc);
+        v.getIdVendedor(idv);
+        v.setSerie(serie);
+        v.setFecha(fecha);
+        v.setMonto(monto);
+        v.setEstado(estado);
+        vdao.GuardarVentas(v); 
     }
     void guardarDetalle(){
-        
+        String idv = vdao.IdVentas();
+        int idve = Integer.parseInt(idv);
+        for (int i = 0; i < tablaDetalle.getRowCount(); i++){
+            int idp = Integer.parseInt(tablaDetalle.getValueAt(i, 1).toString());
+            int cant = Integer.parseInt(tablaDetalle.getValueAt(i, 3).toString());
+            double pre = Double.parseDouble(tablaDetalle.getValueAt(i, 4).toString());
+            dv.setIdVentas(idve);
+            dv.setIdProducto(idp);
+            dv.setCantidad(cant);
+            dv.setPreVenta(pre);
+            vdao.GuardarDetalleVentas(dv);
+        }
     }
     void agregarProducto(){
         double total;
@@ -539,7 +619,7 @@ public class VentasForm extends javax.swing.JInternalFrame {
         if (txtCodCliente.getText().equals("")){
             JOptionPane.showInternalMessageDialog(this, "Debe ingresar cod Cliente");       
         } else {
-            Cliente cliente = cdao.listarID(cod);
+            cliente = cdao.listarID(cod);
             if (cliente.getDni() != null) {
                 txtCliente.setText(cliente.getNom());
                 txtCodProducto.requestFocus();
