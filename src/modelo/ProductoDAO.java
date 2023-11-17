@@ -69,5 +69,5 @@ public class ProductoDAO {
                 p.setId(rs.getInt(1));
             }
         }
-    }
+    } 
 }

@@ -18,12 +18,12 @@ public class VendedorDAO {
     PreparedStatement ps;
     ResultSet rs;
     
-    EntidadVendedor ev=new EntidadVendedor();
     Conexion con=new Conexion();
     Connection acceso;
     
     public EntidadVendedor ValidarVendedor(String dni, String user){
-        String sql = "slect * from vendedor where Dni = ? and User = ?";
+        EntidadVendedor ev=new EntidadVendedor();
+        String sql = "slect * from vendedor where Dni=? and User=?";
         try {
             acceso = con.Conectar();
             ps = acceso.prepareStatement(sql);
